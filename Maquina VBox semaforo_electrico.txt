@@ -1,0 +1,7 @@
+LINK DESCARGA MAQUINA VIRTUALBOX con el proyecto completo y preparado:
+
+https://drive.google.com/file/d/1YJccBJhf7JoWPTvFmk-uGmTcnlAJv0GX/view?usp=sharing
+
+Para arrancar simplemente escribe "semáforo" en una terminal ( modo bash ) o usa el icono creado que hace lo mismo.
+
+Para terminar ejecuta "kill + PID" del proceso para terminarlo.
