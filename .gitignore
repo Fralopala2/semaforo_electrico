@@ -1,0 +1,47 @@
+# Entorno virtual de Python
+venv/
+.venv/
+
+# Archivos de caché y compilación de Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+.pytest_cache/
+htmlcov/
+.tox/
+
+# Archivos de base de datos
+*.sqlite3
+db.sqlite3
+
+# Archivos de variables de entorno (¡MUY IMPORTANTE PARA LA SEGURIDAD!)
+.env
+
+# Archivos generados por Docker (volúmenes de datos)
+*.sql
+*.pgdump
+db_data/  # Si tienes un volumen de Docker que guarda datos directamente en una carpeta así
+
+# Archivos de IDE (ej. VS Code, Sublime Text, PyCharm)
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Logs y otros archivos temporales
+*.log
+*.tmp
+*.temp
+temp/
+media/  # Si Django guarda archivos subidos aquí en desarrollo
+static/ # Si Django guarda archivos estáticos compilados aquí en desarrollo
+
+# Archivos del sistema operativo
+.DS_Store # macOS
+Thumbs.db # Windows
+
+# Archivos de máquina virtual
+# La OVA es la máquina virtual completa, no pertenece al repositorio de código
+# LINUX_DJANGO.ova

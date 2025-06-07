@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Semáforo Eléctrico{% endblock %}</title>
+    <!-- Preconnect para Google Fonts y CDN de Tailwind para carga más rápida -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* Estilos personalizados para un diseño más pulcro y temático */
+        body {
+            font-family: 'Inter', sans-serif;
+            color: #e2e8f0; /* Texto claro por defecto para el fondo oscuro */
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh; /* Asegura que el body ocupe al menos toda la altura de la ventana */
+            /* Fondo animado para simular un motivo eléctrico/energético */
+            background: linear-gradient(135deg, #1a2a4a, #3a1a4a, #1a3a4a, #3a4a1a); /* Degradado oscuro y vibrante */
+            background-size: 400% 400%;
+            animation: gradientBackground 15s ease infinite; /* Animación de movimiento suave */
+        }
+
+        @keyframes gradientBackground {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* El .container solo para navbar y footer, no para el main content */
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 1.5rem;
+            width: 100%;
+        }
+        .navbar {
+            background-color: rgba(44, 62, 80, 0.95); /* Azul oscuro más profesional con ligera transparencia */
+            padding: 1.25rem 1.5rem; /* Más padding */
+            border-bottom-left-radius: 0.75rem; /* Bordes inferiores redondeados */
+            border-bottom-right-radius: 0.75rem;
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3); /* Sombra más pronunciada */
+            transition: all 0.3s ease; /* Transición para efectos futuros */
+            backdrop-filter: blur(8px); /* Efecto de desenfoque más fuerte detrás de la barra de navegación */
+            position: relative;
+            z-index: 10;
+        }
+        .navbar:hover {
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.4);
+        }
+        .btn {
+            @apply px-6 py-2.5 rounded-xl font-semibold transition duration-300 ease-in-out transform hover:scale-105;
+        }
+        .btn-primary {
+            @apply bg-blue-700 text-white shadow-lg hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-75;
+        }
+        .btn-secondary {
+            @apply bg-gray-700 text-gray-200 shadow-md hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-75;
+        }
+        .form-input {
+            @apply border border-gray-600 rounded-lg p-3 w-full bg-gray-800 text-gray-100 focus:ring-blue-500 focus:border-blue-500 shadow-sm placeholder-gray-400;
+        }
+        /* Estilos mejorados para el semáforo */
+        .traffic-light-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 3rem;
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 1.5rem;
+            box-shadow: 0 15px 25px rgba(0, 0, 0, 0.2), 0 5px 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 450px; /* Limita el ancho del contenedor del semáforo */
+            margin-left: auto; /* Centra horizontalmente */
+            margin-right: auto; /* Centra horizontalmente */
+            text-align: center;
+            animation: fadeIn 0.8s ease-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .traffic-light-circle {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin-bottom: 2rem;
+            border: 6px solid #4a5568;
+            box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.3), 0 0 20px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.5s ease-in-out, box-shadow 0.5s ease-in-out;
+        }
+        /* Colores del semáforo con un toque más vibrante */
+        .bg-green { background-color: #27ae60; }
+        .bg-yellow { background-color: #f1c40f; }
+        .bg-red { background-color: #e74c3c; }
+        .bg-gray { background-color: #bdc3c7; }
+
+        /* Mensajes de alerta */
+        .alert-message {
+            padding: 0.75rem 1.25rem;
+            margin-bottom: 1rem;
+            border: 1px solid transparent;
+            border-radius: 0.5rem;
+            transition: opacity 0.3s ease-out;
+            background-color: rgba(255, 255, 255, 0.9);
+            color: #2d3748;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .alert-success { @apply bg-green-100 text-green-800 border-green-200; }
+        .alert-error { @apply bg-red-100 text-red-800 border-red-200; }
+        .alert-info { @apply bg-blue-100 text-blue-800 border-blue-200; }
+
+        /* Estilo para los enlaces de texto */
+        .text-link {
+            @apply text-blue-400 hover:text-blue-200 transition duration-200 ease-in-out;
+        }
+
+        /* Estilos específicos para la tarjeta de autenticación */
+        .auth-card {
+            background-color: rgba(30, 41, 59, 0.98); /* Azul oscuro casi negro, más opaco */
+            border-radius: 1.5rem;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), 0 5px 15px rgba(0, 0, 0, 0.4); /* Sombra más profunda y oscura */
+            padding: 3rem;
+            width: 100%; /* Ocupa el 100% del contenedor padre */
+            max-width: 450px; /* Limita el ancho de la tarjeta */
+            margin-left: auto; /* Centra horizontalmente */
+            margin-right: auto; /* Centra horizontalmente */
+            color: #e2e8f0;
+            animation: fadeInScale 0.8s ease-out;
+        }
+        @keyframes fadeInScale {
+            from { opacity: 0; transform: scale(0.95) translateY(20px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+        .auth-card h2 {
+            @apply text-4xl font-extrabold text-blue-400 mb-6 text-center;
+        }
+        .auth-card label {
+            @apply block text-sm font-medium text-gray-300 mb-2;
+        }
+        .auth-card .form-input {
+            @apply bg-gray-900 border-gray-700 text-gray-100 placeholder-gray-500 focus:ring-blue-600 focus:border-blue-600;
+        }
+        .auth-card .btn-primary {
+            @apply bg-blue-700 hover:bg-blue-800;
+        }
+        .auth-card .text-sm a {
+            @apply text-blue-400 hover:text-blue-300;
+        }
+
+        /* Responsive adjustments for messages */
+        @media (max-width: 640px) {
+            .alert-message {
+                margin-left: 1rem;
+                margin-right: 1rem;
+            }
+        }
+    </style>
+</head>
+<body class="font-sans antialiased">
+    <nav class="navbar mb-10">
+        <div class="container flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+            <a href="{% url 'home' %}" class="text-white text-3xl font-extrabold tracking-tight">Semáforo Eléctrico</a>
+            <div class="flex flex-col md:flex-row items-center space-y-3 md:space-y-0 md:space-x-6">
+                <a href="{% url 'electricity:traffic_light' %}" class="btn btn-primary">Ver Semáforo</a>
+                {% if user.is_authenticated %}
+                    <span class="text-white text-lg font-medium">Hola, <span class="font-bold text-blue-300">{{ user.username }}</span>!</span> {# ¡CORREGIDO! Se añadió {{ user.username }} #}
+                    <form action="{% url 'logout' %}" method="post" class="inline">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-secondary">Cerrar Sesión</button>
+                    </form>
+                {% else %}
+                    <a href="{% url 'login' %}" class="btn btn-primary">Iniciar Sesión</a>
+                    <a href="{% url 'signup' %}" class="btn btn-secondary">Registrarse</a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+
+    <main class="flex-grow flex items-center justify-center p-4">
+        {# Ajustado posicionamiento de mensajes para que no interfieran con el centrado del contenido principal #}
+        {% if messages %}
+            <ul class="fixed top-24 left-1/2 -translate-x-1/2 w-11/12 max-w-md z-20">
+                {% for message in messages %}
+                    <li class="alert-message {% if message.tags == 'success' %}alert-success{% elif message.tags == 'error' %}alert-error{% else %}alert-info{% endif %}">
+                        {{ message }}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <footer class="bg-gray-800 text-white text-center p-6 mt-auto rounded-t-xl shadow-inner relative z-10">
+        <p class="text-sm"> © {% now "Y" %} Semáforo Eléctrico. Todos los derechos reservados.</p>
+        <p class="text-xs text-gray-400 mt-1">Desarrollado con Django y Tailwind CSS por Paco López Alarte</p>
+    </footer>
+</body>
+</html>
+

@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}Registrarse{% endblock %}
+
+{% block content %}
+{# Contenedor que centra la tarjeta de autenticación dentro del main #}
+    <div class="auth-card"> {# mx-auto y max-w definidos en CSS #}
+        <h2 class="text-blue-400">Registrarse</h2>
+        <p class="text-gray-300 text-center mb-6">Crea una cuenta para acceder a todas las funcionalidades.</p>
+        <form method="post" class="space-y-6">
+            {% csrf_token %}
+            {% for field in form %}
+                <div>
+                    <label for="{{ field.id_for_label }}" class="block text-sm font-medium text-gray-300 mb-2">{{ field.label }}:</label>
+                    {{ field }}
+                    {% if field.errors %}
+                        <p class="text-red-400 text-xs mt-1">{{ field.errors.as_text }}</p>
+                    {% endif %}
+                </div>
+            {% endfor %}
+            <button type="submit" class="btn btn-primary w-full py-3 text-lg">Registrarse</button>
+        </form>
+        <div class="mt-8 text-center text-sm text-gray-400">
+            ¿Ya tienes una cuenta? <a href="{% url 'login' %}" class="text-blue-400 hover:text-blue-300 font-medium">Inicia sesión aquí</a>
+        </div>
+    </div>
+{% endblock %}
+

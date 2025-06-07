@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}Semáforo de Precios{% endblock %}
+
+{% block content %}
+    <div class="traffic-light-container bg-white">
+        <h1 class="text-3xl font-bold mb-4">Semáforo de Precio de Electricidad</h1>
+        <div class="traffic-light-circle {% if status_color == 'green' %}bg-green{% elif status_color == 'yellow' %}bg-yellow{% elif status_color == 'red' %}bg-red{% else %}bg-gray{% endif %}"></div>
+        <p class="text-xl font-semibold text-gray-800 mb-2">{{ message }}</p>
+        {% if current_price_data %}
+            <p class="text-md text-gray-600">Fecha: {{ current_price_data.date }}</p>
+            <p class="text-md text-gray-600">Hora: {{ current_price_data.hour }}:00</p>
+        {% endif %}
+
+        <div class="mt-6 text-center">
+            <h2 class="text-2xl font-bold mb-3">Precios del día</h2>
+            {% if current_price_data %}
+                <p class="text-sm text-gray-500 mb-2">
+                    (Los precios "verde", "amarillo" y "rojo" se determinan automáticamente en base a rangos predefinidos:
+                    <span class="text-green-600 font-semibold">Verde:</span> &lt; 0.10 €/kWh,
+                    <span class="text-yellow-600 font-semibold">Amarillo:</span> 0.10 - 0.20 €/kWh,
+                    <span class="text-red-600 font-semibold">Rojo:</span> &gt; 0.20 €/kWh)
+                </p>
+            {% endif %}
+            {# CORREGIDO: Se añade el namespace 'electricity' #}
+            <a href="{% url 'electricity:api_daily_prices' %}" target="_blank" class="text-blue-600 hover:underline text-lg font-medium">Ver todos los precios del día (JSON)</a>
+        </div>
+    </div>
+{% endblock %}

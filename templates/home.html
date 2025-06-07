@@ -1,0 +1,30 @@
+{# templates/home.html #}
+{% extends 'base.html' %}
+
+{% block title %}Inicio{% endblock %}
+
+{% block content %}
+    {# Quitamos los margenes verticales y dejamos que el flex de main lo centre verticalmente #}
+    <div class="bg-white p-10 rounded-2xl shadow-xl text-center max-w-2xl mx-auto transform hover:scale-102 transition duration-300 ease-in-out">
+        <h1 class="text-5xl font-extrabold text-gray-800 mb-6 leading-tight">Bienvenido a <span class="text-blue-700">Semáforo Eléctrico</span></h1>
+        <p class="text-xl text-gray-600 leading-relaxed mb-8">
+            Aquí podrás consultar de forma sencilla el estado del precio de la electricidad en tiempo real,
+            para tomar las mejores decisiones sobre tu consumo.
+            {% if user.is_authenticated %}
+                <br>¡Estás conectado como <span class="font-bold text-blue-600">{{ user.username }}</span>!
+                <br><a href="{% url 'electricity:traffic_light' %}" class="text-link font-bold text-2xl mt-6 inline-block">Haz clic aquí para ver el semáforo de precios.</a>
+            {% else %}
+                <br>Para acceder a todas las funcionalidades y ver el estado actual, por favor,
+                <a href="{% url 'login' %}" class="text-link font-medium">inicia sesión</a> o
+                <a href="{% url 'signup' %}" class="text-link font-medium">regístrate</a>.
+            {% endif %}
+        </p>
+        <div class="mt-8 flex justify-center space-x-4">
+            {% if not user.is_authenticated %}
+                <a href="{% url 'login' %}" class="btn btn-primary">Iniciar Sesión</a>
+                <a href="{% url 'signup' %}" class="btn btn-secondary">Registrarse</a>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
+

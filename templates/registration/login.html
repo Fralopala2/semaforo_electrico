@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block title %}Iniciar Sesión{% endblock %}
+
+{% block content %}
+{# Contenedor que centra la tarjeta de autenticación dentro del main #}
+    <div class="auth-card"> {# mx-auto y max-w definidos en CSS #}
+        <h2 class="text-blue-400 text-center">Iniciar Sesión</h2>
+        <p class="text-gray-300 text-center mb-6">Introduce tu nombre de usuario y contraseña para acceder a tu cuenta.</p>
+        <form method="post" class="space-y-6 text-center">
+            {% csrf_token %}
+            <div>
+                <label for="{{ form.username.id_for_label }}" class="block text-sm font-medium text-gray-300 mb-2">Nombre de usuario:</label>
+                {{ form.username }}
+                {% if form.username.errors %}
+                    <p class="text-red-400 text-xs mt-1">{{ form.username.errors.as_text }}</p>
+                {% endif %}
+            </div>
+            <div>
+                <label for="{{ form.password.id_for_label }}" class="block text-sm font-medium text-gray-300 mb-2">Contraseña:</label>
+                {{ form.password }}
+                {% if form.password.errors %}
+                    <p class="text-red-400 text-xs mt-1">{{ form.password.errors.as_text }}</p>
+                {% endif %}
+            </div>
+            <div class="items-center text-center text-sm">
+                <div class="flex items-center">
+                    {# Si implementas "Recordarme", aquí iría #}
+                </div>
+                <div class="text-center">
+                    <a href="{% url 'password_reset' %}" class="text-blue-400 text-center hover:text-blue-300">¿Olvidaste tu contraseña?</a>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary w-full py-3 text-lg text-center">Iniciar Sesión</button>
+        </form>
+        <div class="mt-8 text-center text-sm text-gray-400">
+            ¿No tienes una cuenta? <a href="{% url 'signup' %}" class="text-blue-400 hover:text-blue-300 font-medium">Regístrate aquí</a>
+        </div>
+    </div>
+{% endblock %}
+
