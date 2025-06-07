@@ -11,7 +11,9 @@ Licencia
 Este proyecto está bajo una licencia de uso educativo y no comercial.
 
 Puedes utilizar, modificar y distribuir este software para fines personales o educativos, siempre y cuando no sea para beneficio comercial directo.
+
 Atribución
 Si utilizas este proyecto para cualquier propósito (personal, educativo, demostración, etc.), te pido que atribuyas el reconocimiento a su creador:
 Paco López Alarte (spanocrypt@gmail.com)
+
 Agradezco tu comprensión y respeto por los términos de uso.
